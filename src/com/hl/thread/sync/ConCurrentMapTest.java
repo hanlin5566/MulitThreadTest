@@ -28,13 +28,14 @@ public class ConCurrentMapTest {
 	enum Flag{
 		INIT,ADD,REFRESH,READ,WRITE,EXIT
 	}
-	public static final int sleepTime = 5000;
+	public static final int writeTime = 100;
+	public static final int readTime = 100;
 	public static final int readThreadCount = 2;
 	public static final int writeThreadCount = 1;
 	public static final int dataLength = 3;
-	
+	Map<String, Map<String, DataModel>> data = new HashMap<String, Map<String, DataModel>>();
+
 	public static void main(String[] args) {
-		
 		String info = "* [0] instructions\r\n*  init\r\n*   empty\r\n*  add\r\n*   [1] index\r\n*   [2] prefix\r\n* refresh\r\n*   [1] index\r\n*  [2] prefix\r\n*  read\r\n*   [1]prefix\r\n*  write\r\n*   [1] index\r\n*   [2] prefix\r\n";
 		System.out.println(info);
 		Scanner s = new Scanner(System.in);
@@ -82,15 +83,20 @@ public class ConCurrentMapTest {
 		}
 	}
 	
-	
-
-	Map<String, Map<String, DataModel>> data = new ConcurrentHashMap<String, Map<String, DataModel>>();
-	
-	
-	private void sleep(){
+	private void writeSleep(){
 		try {
 			Random random = new Random();
-			int i = random.nextInt(sleepTime);
+			int i = random.nextInt(writeTime);
+			Thread.sleep(Long.parseLong(i+""));
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	private void readSleep(){
+		try {
+			Random random = new Random();
+			int i = random.nextInt(readTime);
 			Thread.sleep(Long.parseLong(i+""));
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
@@ -106,7 +112,7 @@ public class ConCurrentMapTest {
 		}
 		for (int i = sIndex; i < dataLength+sIndex; i++) {
 			DataModel dataModel = new DataModel(prefix + "_" + i, prefix + "_" + i, i);
-			sleep();
+			writeSleep();
 			map.put("" + i, dataModel);
 		}
 		data.put(prefix, map);
@@ -128,7 +134,7 @@ public class ConCurrentMapTest {
 			for (String key : map.keySet()) {
 				DataModel dataModel = map.get(key);
 				String threadName = Thread.currentThread().getName();
-				System.err.println("thread "+threadName+" read:"+dataModel.toString());
+				System.out.println("thread【"+threadName+"】read:"+dataModel.toString());
 			}
 		}
 	}
@@ -146,11 +152,12 @@ public class ConCurrentMapTest {
 		Map<String, DataModel> map = new HashMap<String, DataModel>();
 		for (int i = index; i < dataLength; i++) {
 			DataModel dataModel = new DataModel(prefix + "_" + i, prefix + "_" + i, i);
-			sleep();
+			writeSleep();
 			map.put("" + i, dataModel);
 		}
 		freshData.put(prefix, map);
 		data = freshData;
+		System.err.println("*****write_"+prefix+"...");
 	}
 
 	public void readThread(final String prefix) {
@@ -160,18 +167,14 @@ public class ConCurrentMapTest {
 					if("all".equals(prefix)){
 						while(true){
 							readAll();
-							try {
-								Thread.sleep(50);
-							} catch (InterruptedException e) {
-								e.printStackTrace();
-							}
+							readSleep();
 						}
 					}else{
 						read(prefix);
 					}
 				}
 			});
-			read.setName("Reader_"+prefix + i);
+			read.setName("Reader_"+prefix+"_"+i);
 			read.start();
 		}
 	}
