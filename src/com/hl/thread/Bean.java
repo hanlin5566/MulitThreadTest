@@ -3,7 +3,7 @@ package com.hl.thread;
  * Create by hanlin on 2018年1月17日
  **/
 public class Bean {
-	private Name n;
+	private volatile static Name n;
 	
 	public Bean() {
 		super();
