@@ -2,6 +2,7 @@ package com.hl.thread;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -42,7 +43,7 @@ public class ThreadPoolExecutorTest {
         MineRejectedHandler rejectedHandler = new MineRejectedHandler();
         ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(2,5,5, TimeUnit.SECONDS,workQueue,mineThreadFactory,rejectedHandler);
         ThreadPoolExecutorTest lock = new ThreadPoolExecutorTest();
-
+        HashMap map = new HashMap();
         ExecutorCompletionService<String> executorCompletionService = new ExecutorCompletionService(threadPoolExecutor);
 
         Runnable runnable = new Runnable() {
