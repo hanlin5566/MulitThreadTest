@@ -16,7 +16,7 @@ public class SleepAndWaitTest {
                     System.out.println("方法1执行"+s);
                     try {
 //                        Thread.sleep(2000);//不释放锁
-//                        lock.wait();//释放锁,可以让线程t2继续执行
+//                        lock.wait();//释放锁,可以让线程t2继续执行,并且等待t2线程唤醒
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
