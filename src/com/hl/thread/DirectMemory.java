@@ -34,7 +34,7 @@ public class DirectMemory {
             ByteBuffer byteBuffer = ByteBuffer.allocateDirect(10*1024*1024);//每次分配10M
             list.add(byteBuffer);
 
-
+            Thread.yield();
             // 虚拟机级内存情况查询
             System.out.println("======================================");
             long vmFree = 0;

@@ -4,6 +4,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Created by Hanson on 2019/5/17 18:18
+ * 线程A请求AB资源,线程B请求BA资源.模拟死锁问题.
+ *
+ * 解决死锁,让线程A与线程B请求资源为相同顺序,ABAB或者BABA,如果ABBA或者BAAB都会出现死锁.
  */
 public class DeadLockedThread {
 
@@ -36,9 +39,9 @@ public class DeadLockedThread {
             public void run() {
                 while(true){
                     synchronized (experience){
-                        System.out.println("我需要经验才能给你工作.");
+                        System.err.println("我需要经验才能给你工作.");
                         synchronized (work){
-                            System.out.println("你有经验了,我给你工作.");
+                            System.err.println("你有经验了,我给你工作.");
                         }
                     }
                 }
