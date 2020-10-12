@@ -4,6 +4,7 @@ package com.hl.thread;
  * @Auther: Hanson
  * @Date: 2019/5/13 21:26
  * @Description:
+ * 二分排序
  */
 public class BinarySort {
     public static void binarySort(int[] source) {

@@ -6,6 +6,7 @@ import java.util.List;
 
 /**
  * Created by Hanson on 2019/5/14 15:21
+ * 首先排序,从中间开始查找,如果逾期值小于当前值,则在左区间,end-1为当前值的下标,继续递归查找.否则就是为start+1,向右查找.
  */
 public class BinarySearch {
     private Integer[] array;

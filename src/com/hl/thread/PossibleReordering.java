@@ -2,6 +2,7 @@ package com.hl.thread;
 
 /**
  * Created by Hanson on 2019/5/20 15:57
+ * 可见性测试
  */
 public class PossibleReordering {
     static int x = 0, y = 0;

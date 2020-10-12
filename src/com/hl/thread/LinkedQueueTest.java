@@ -20,7 +20,7 @@ public class LinkedQueueTest {
 
         while(true){
             System.out.println(queue.poll());
-            if(queue.size() == 0){
+            if(queue.isEmpty()){
                 break;
             }
 
